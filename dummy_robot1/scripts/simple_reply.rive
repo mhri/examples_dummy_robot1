@@ -1,0 +1,33 @@
+// SM 테스트
++ 태그모션
+- <sm=tag:neutral>중립모션을 테스트합니다.
+- <sm=tag:greeting>어서 오세요. 반갑습니다.
+- <sm=tag:encourge>잘하셨어요. 다음에도 잘 될꺼에요.
+
++ 태그감정모션
+- <sm=tag:attention[anger]>여기를 보셔야죠!
+- <sm=tag:praise[happiness]>정말 잘하셨어요! 기쁘네요.
+
++ 모션호출
+- <sm=play:motion_number1>사용자모션1을 호출합니다.
+
+// Pointing 테스트
++ 포인팅
+- <pointing=objects:Box1>Box1을 가르킵니다.
+- <pointing=objects:Box2>Box2를 가르킵니다.
+
++ 포인팅2
+- <pointing=person:User1>User1을 가르킵니다.
+- <pointing=person:User2>User2를 가르킵니다.
+
+// Gaze 테스트
++ 게이즈
+- <gaze=person:User1>User1을 바라봅니다.
+- <gaze=objects:Box1>Box1을 바라봅니다.
+
+// 이벤트 데이터 읽어오기
++ 데이터읽기
+- 방금 <call>mget speech_recognition/confidence</call>의 신뢰도로 말씀하셨습니다.
+
++ 데이터쓰기
+- <call>mset speech_recognition/recognized_word:테스트,confidence:0.99<call>메모리에 데이터를 씁니다.

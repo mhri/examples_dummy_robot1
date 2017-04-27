@@ -1,0 +1,24 @@
+<launch>
+    <arg name="project_path" value="$(find dummy_robot1)/" />
+
+    <!-- Core Functionality -->
+    <include file="$(find mhri)/launch/bringup_core.launch">
+        <arg name="project_path" value="$(arg project_path)/" />
+    </include>
+
+    <!-- Renderer Functionality-->
+    <include file="$(find motion_renderer)/launch/bringup_renderer.launch">
+    </include>
+
+    <!-- Dialog Functionality -->
+    <include file="$(find mhri_dialog)/launch/bringup.launch">
+        <arg name="script_path" value="$(arg project_path)/scripts" />
+    </include>
+
+    <!-- Bringup Social Perception -->
+    <include file="$(find speech_recognizer_py)/launch/bringup_perception.launch" />
+    <include file="$(find static_object_info_publisher)/launch/bringup_publisher.launch" />
+
+    <!-- Bringup Sensory Perception -->
+    <!-- <include file="$(find google_cloud_speech)/launch/bringup.launch" /> -->
+</launch>
