@@ -8,6 +8,7 @@
 
     <!-- Renderer Functionality-->
     <include file="$(find motion_renderer)/launch/bringup_renderer.launch">
+        <arg name="fake_render_speech" value="false" />
     </include>
 
     <!-- Dialog Functionality -->
@@ -20,5 +21,9 @@
     <include file="$(find static_object_info_publisher)/launch/bringup_publisher.launch" />
 
     <!-- Bringup Sensory Perception -->
-    <!-- <include file="$(find google_cloud_speech)/launch/bringup.launch" /> -->
+    <include file="$(find google_cloud_speech)/launch/bringup.launch" />
+
+    <node name="naver_tts" type="speech_node.py" pkg="render_speech_naver_voice_tts" output="screen">
+        <param name="config_file" value="$(find render_speech_naver_voice_tts)/config/speech_conf.json" />
+    </node>
 </launch>
