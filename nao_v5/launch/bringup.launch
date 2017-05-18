@@ -1,0 +1,14 @@
+<launch>
+    <arg name="project_path" default="$(find nao_v5)/" />
+    <arg name="nao_ip" default="$(optenv NAO_IP 127.0.0.1)" />
+	<arg name="nao_port" default="$(optenv NAO_PORT 9559)" />
+
+    <include file="$(find nao_v5)/launch/bringup_nao.launch">
+        <arg name="nao_ip" value="$(arg nao_ip)" />
+        <arg name="nao_port" value="$(arg nao_port)" />
+    </include>
+
+    <include file="$(find nao_v5)/launch/bringup_mhri.launch">
+        <arg name="project_path" value="$(arg project_path)/" />
+    </include>
+</launch>

@@ -1,0 +1,26 @@
++ 표정
+- <expression=anger>안녕하세요. 반갑습니다.
+
++ 안녕
+- 안녕하세요.
+
++ 모션
+- <sm=tag:greeting>안녕하세요.
+
++ 모션2
+- 안녕하세요.
+
++ 모션3
+- <sm=play:sm_tag/encourage/motion1>안녕하세요.
+
++ 지시1
+- <pointing=objects:Box1>
+
++ 지시2
+- <pointing=objects:Box2>
+
++ 보기
+- 저 물체를 바라봅니다. <gaze=objects:Box1> 제가 잘 보고 있나요?
+
++ 보기지시
+- <gaze=objects:Box1><pointing=objects:Box1>

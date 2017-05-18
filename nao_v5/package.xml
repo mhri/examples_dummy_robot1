@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>nao_v5</name>
+  <version>0.0.0</version>
+  <description>The nao_v5 package</description>
+
+  <author email="byeongkyu@gmail.com">Byeong-Kyu Ahn</author>
+  <maintainer email="byeongkyu@gmail.com">Byeong-Kyu Ahn</maintainer>
+
+  <license>BSD</license>
+  <url type="website">https://github.com/mhri/mhri/wiki</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>mhri</depend>
+  <depend>mhri_social_msgs</depend>
+  <depend>mhri_dialog</depend>
+  <depend>naoqi_pose</depend>
+  <depend>nao_description</depend>
+  <depend>naoqi_driver_py</depend>
+  <depend>nao_apps</depend>
+  <depend>diagnostic_aggregator</depend>
+
+
+  <export>
+  </export>
+</package>

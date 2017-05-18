@@ -1,0 +1,53 @@
+<launch>
+	<arg name="nao_ip" default="$(optenv NAO_IP 127.0.0.1)" />
+	<arg name="nao_port" default="$(optenv NAO_PORT 9559)" />
+
+	<node pkg="diagnostic_aggregator" type="aggregator_node" name="diag_agg" clear_params="true">
+		<rosparam command="load" file="$(find nao_bringup)/config/nao_analysers.yaml" />
+	</node>
+
+	<!-- upload nao robot model V40 by default-->
+	<include file="$(find nao_description)/launch/robot_state_publisher.launch" >
+		<arg name="version" value="V50" />
+	</include>
+
+	<!-- publish joint states and basic actuators -->
+	<include file="$(find naoqi_driver_py)/launch/naoqi_driver.launch">
+		<arg name="nao_ip" value="$(arg nao_ip)" />
+        <arg name="nao_port" value="$(arg nao_port)" />
+	</include>
+
+	<!-- enable walker -->
+	<include file="$(find nao_apps)/launch/walker.launch" >
+		<arg name="nao_ip" value="$(arg nao_ip)" />
+        <arg name="nao_port" value="$(arg nao_port)" />
+	</include>
+
+	<!-- launch pose manager -->
+	<include file="$(find naoqi_pose)/launch/pose_manager.launch" >
+		<arg name="nao_ip" value="$(arg nao_ip)" />
+		<arg name="nao_port" value="$(arg nao_port)" />
+	</include>
+
+    <!-- launch idle behavior -->
+    <node name="nao_behavior_idle_motion" type="behavior_idle_motion.py" pkg="nao_v5" required="true"
+        args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen" />
+
+    <!-- launch Blink and Expression -->
+    <node name="nao_render_expression" type="render_expression.py" pkg="nao_v5" required="true"
+        args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen" />
+
+    <!-- launch Speech -->
+    <node name="nao_render_speech" type="render_speech.py" pkg="nao_v5" required="true"
+        args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen" />
+
+    <!-- launch Behavior -->
+    <node name="nao_render_gesture" type="render_gesture.py" pkg="nao_v5" required="true"
+        args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen">
+        <param name="motion_file" value="$(find nao_v5)/config/motions.yaml"/>
+    </node>
+
+    <!-- launch Gaze -->
+    <node name="nao_render_gaze" type="render_gaze.py" pkg="nao_v5" required="true"
+        args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen" />
+</launch>
