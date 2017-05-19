@@ -24,3 +24,21 @@
 
 + 보기지시
 - <gaze=objects:Box1><pointing=objects:Box1>
+
++ e:front-head-touched
+- <overriding=2>앞쪽 머리 터치
+
++ e:middle-head-touched
+- <overriding=2>중간 머리 터치
+
++ e:rear-head-touched
+- <overriding=2>뒤쪽 머리 터치
+
++ e:left-bumper-touched
+- <overriding=2>왼쪽 다리 건들기
+
++ e:right-bumper-touched
+- <overriding=2>오른쪽 다리 건들기
+
++ e:robot-lifted
+- <overriding=2>내려놓으세요.

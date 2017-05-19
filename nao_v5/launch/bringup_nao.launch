@@ -29,9 +29,13 @@
 		<arg name="nao_port" value="$(arg nao_port)" />
 	</include>
 
-    <!-- launch idle behavior -->
-    <node name="nao_behavior_idle_motion" type="behavior_idle_motion.py" pkg="nao_v5" required="true"
-        args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen" />
+    <!-- //////////////////////////////////////////////////////////////////
+        Rendering
+          - Facial Expression
+          - Speech
+          - Gesture
+          - Gaze
+        ///////////////////////////////////////////////////////////////////-->
 
     <!-- launch Blink and Expression -->
     <node name="nao_render_expression" type="render_expression.py" pkg="nao_v5" required="true"
@@ -50,4 +54,39 @@
     <!-- launch Gaze -->
     <node name="nao_render_gaze" type="render_gaze.py" pkg="nao_v5" required="true"
         args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen" />
+
+    <!-- //////////////////////////////////////////////////////////////////
+        Behaviors
+          - Idle Behavior
+        ///////////////////////////////////////////////////////////////////-->
+
+    <!-- launch idle behavior -->
+    <node name="nao_behavior_idle_motion" type="behavior_idle_motion.py" pkg="nao_v5" required="true"
+        args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen" />
+
+    <!-- //////////////////////////////////////////////////////////////////
+        Sensory Perceptions
+          - Tactile
+          - Loud Sound Detection
+        ///////////////////////////////////////////////////////////////////-->
+    <include file="$(find nao_apps)/launch/tactile.launch">
+        <arg name="nao_ip" value="$(arg nao_ip)" />
+        <arg name="nao_port" value="$(arg nao_port)" />
+    </include>
+
+    <node name="loud_sound_detect_sensor" type="sensory_percep_loud_sound_detector.py" pkg="nao_v5" required="true"
+        args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen" />
+
+    <!-- //////////////////////////////////////////////////////////////////
+        Social Perceptions
+          - Tactile
+        ///////////////////////////////////////////////////////////////////-->
+    <node name="touch_sensor" type="social_percep_touch_sensor.py" pkg="nao_v5" output="screen">
+        <param name="config_file" value="$(find nao_v5)/config/percep_conf_touch_sensor.yaml"/>
+    </node>
+
+    <node name="loud_sound_detector" type="social_percep_loud_sound_detector.py" pkg="nao_v5" output="screen">
+        <param name="config_file" value="$(find nao_v5)/config/percep_conf_loud_sound_detection.yaml"/>
+    </node>
+
 </launch>

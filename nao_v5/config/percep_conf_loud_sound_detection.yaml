@@ -1,0 +1,7 @@
+loud_sound_detection:
+    target_memory: 'social_events_memory'
+    events: ['loud_sound_detected']
+    data:
+        xyz: [0.0, 0.0, 0.0]
+        frame_id: 'world'
+        direction: 'front'   # front_left, front_right, front, rear_left, rear_right, rear
