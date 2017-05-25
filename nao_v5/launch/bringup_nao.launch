@@ -1,6 +1,7 @@
 <launch>
 	<arg name="nao_ip" default="$(optenv NAO_IP 127.0.0.1)" />
 	<arg name="nao_port" default="$(optenv NAO_PORT 9559)" />
+    <arg name="motion_file" default="$(find nao_v5)/config/motions.yaml"/>
 
 	<node pkg="diagnostic_aggregator" type="aggregator_node" name="diag_agg" clear_params="true">
 		<rosparam command="load" file="$(find nao_bringup)/config/nao_analysers.yaml" />
@@ -48,7 +49,7 @@
     <!-- launch Behavior -->
     <node name="nao_render_gesture" type="render_gesture.py" pkg="nao_v5" required="true"
         args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen">
-        <param name="motion_file" value="$(find nao_v5)/config/motions.yaml"/>
+        <param name="motion_file" value="$(arg motion_file)"/>
     </node>
 
     <!-- launch Gaze -->

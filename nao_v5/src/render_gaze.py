@@ -46,7 +46,7 @@ class GazeRenderNode:
             with self.lock:
                 point_transformed = self.listener.transformPoint('gaze', self.target.target_point)
         except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-            rospy.logwarn("[%s] Can't tranform from gaze to target."%rospy.get_name())
+            rospy.logwarn("[%s] Can't tranform from gaze to target.[ %s - %s ]"%(rospy.get_name(), 'gaze', self.target.target_point.header.frame_id))
             return
 
         pan_angle = math.atan2(point_transformed.point.y, point_transformed.point.x)

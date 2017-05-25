@@ -19,8 +19,10 @@ class LoudSoundLocalization(ALModule):
 
         self.pub_soundlocalization_cmd = rospy.Publisher('loud_sound_detect', PointStamped, queue_size=1)
 
+        sensitivity = rospy.get_param('~sensitivity', 0.3)
+
         self.soundLoc = ALProxy("ALSoundLocalization")
-        self.soundLoc.setParameter("Sensitivity", 0.1)  # Set a sound sensitivity
+        self.soundLoc.setParameter("Sensitivity", sensitivity)  # Set a sound sensitivity
         global memory
         memory = ALProxy("ALMemory")
         memory.subscribeToEvent("ALSoundLocalization/SoundLocated", "loudSoundDetector", "onLoudSoundDetected")
