@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 #-*- encoding: utf8 -*-
 
+import sys
 import math
 import threading
 import rospy
-import tf
+import tf2_ros
 import numpy as np
 
 from naoqi_bridge_msgs.msg import JointAnglesWithSpeed
 from mhri_msgs.msg import GazeCommand
-from geometry_msgs.msg import PointStamped
+from tf2_geometry_msgs import PointStamped
 
 
 class HeadJointLimits:
@@ -23,7 +24,8 @@ class GazeRenderNode:
         rospy.init_node('nao_render_gaze', anonymous=False)
 
         self.lock = threading.RLock()
-        self.listener = tf.TransformListener()
+        self.tf_buf = tf2_ros.Buffer()
+        self.listener = tf2_ros.TransformListener(self.tf_buf)
 
         rospy.Subscriber('gaze_command', GazeCommand, self.handle_gaze_point)
         self.pub_gaze_cmd = rospy.Publisher(
@@ -42,12 +44,21 @@ class GazeRenderNode:
         rospy.spin()
 
     def handle_gaze_controller(self, event):
-        try:
-            with self.lock:
-                point_transformed = self.listener.transformPoint('gaze', self.target.target_point)
-        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-            rospy.logwarn("[%s] Can't tranform from gaze to target.[ %s - %s ]"%(rospy.get_name(), 'gaze', self.target.target_point.header.frame_id))
-            return
+        # try:
+        with self.lock:
+            try:
+                aaa = PointStamped()
+                aaa.header.stamp = rospy.Time()
+                aaa.header.frame_id = self.target.target_point.header.frame_id
+                aaa.point.x = self.target.target_point.point.x
+                aaa.point.y = self.target.target_point.point.y
+                aaa.point.z = self.target.target_point.point.z
+                point_transformed = self.tf_buf.transform(aaa, 'gaze')
+            except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+                e = sys.exc_info()[0]
+                rospy.logdebug(e)                
+                rospy.logwarn("[%s] Can't tranform from gaze to target.[ %s - %s ]"%(rospy.get_name(), 'gaze', self.target.target_point.header.frame_id))
+                return
 
         pan_angle = math.atan2(point_transformed.point.y, point_transformed.point.x)
         tilt_angle = math.atan2(point_transformed.point.z, point_transformed.point.x)
