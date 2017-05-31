@@ -75,6 +75,9 @@
         <arg name="nao_port" value="$(arg nao_port)" />
     </include>
 
+    <node name="hand_touch_detect_sensor" type="sensory_percep_hand_touch_detector.py" pkg="nao_v5" required="true"
+        args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen" />
+
     <node name="loud_sound_detect_sensor" type="sensory_percep_loud_sound_detector.py" pkg="nao_v5" required="true"
         args="--pip=$(arg nao_ip) --pport=$(arg nao_port)"  output="screen" />
 
