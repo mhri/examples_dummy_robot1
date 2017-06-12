@@ -30,6 +30,9 @@
 - 방금 <call>mget speech_recognition/confidence</call>의 신뢰도로 말씀하셨습니다.
 - 현재 이곳엔 물체가 <call>mget objects_info/num_of_objects</call>개가 있습니다.
 
++ 데이터읽기2
+- Box1 물체는 x축으로 <call>mget objects/Box1/xyz[0]</call>에 있습니다.
+
 + 데이터쓰기
 - <call>mset speech_recognition/recognized_word:테스트,confidence:0.99<call>메모리에 데이터를 씁니다.
 
