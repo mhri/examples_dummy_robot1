@@ -13,7 +13,8 @@
 
     <!-- Dialog Functionality -->
     <include file="$(find mhri_dialog)/launch/bringup.launch">
-        <arg name="script_path" value="$(arg project_path)/scripts" />
+        <!-- <arg name="script_path" value="$(arg project_path)/scripts" /> -->
+        <arg name="script_path" value="/home/byeongkyu/catkin_ws/src/mhri_workspace/domain_scripts/skincare_scenario" />
     </include>
 
     <!-- Bringup Social Perception -->
@@ -21,7 +22,7 @@
     <include file="$(find static_object_info_publisher)/launch/bringup_publisher.launch" />
 
     <!-- Bringup Sensory Perception -->
-    <include file="$(find google_cloud_speech)/launch/bringup.launch" />
+    <!-- <include file="$(find google_cloud_speech)/launch/bringup.launch" /> -->
 
     <node name="naver_tts" type="speech_node.py" pkg="render_speech_naver_voice_tts" output="screen">
         <param name="config_file" value="$(find render_speech_naver_voice_tts)/config/speech_conf.json" />
