@@ -2,7 +2,7 @@
 #-*- encoding: utf8 -*-
 
 import rospy
-from perception_core.perception_base import PerceptionBase
+from perception_base.perception_base import PerceptionBase
 from naoqi_bridge_msgs.msg import Bumper, HeadTouch, HandTouch
 from std_msgs.msg import Bool
 
@@ -77,7 +77,7 @@ class TouchSensor(PerceptionBase):
 
         self.save_to_memory(self.conf_data.keys()[0], data=write_data)
         self.raise_event(self.conf_data.keys()[0], event_name + '_touched')
-        
+
 
 if __name__ == '__main__':
     m = TouchSensor()

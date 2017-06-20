@@ -6,6 +6,7 @@ import threading
 import yaml
 import json
 import random
+import re
 
 import rospy
 import actionlib
@@ -82,7 +83,23 @@ class NaoBehaviors(NaoqiNode):
         if gesture_type == 'gesture':
             (cmd, item_name) = gesture_data.split(':')
             if cmd == 'tag':
-                rendering_gesture = self.motion_list[item_name][random.randrange(0, len(self.motion_list[item_name]))]
+                match = re.search(r'\[(.+?)\]', item_name)
+                rendering_gesture = ''
+                if match:
+                    item_name = item_name.replace(match.group(0), '')
+                    emotion = match.group(1)
+
+                    try:
+                        rendering_gesture = self.motion_list[item_name][emotion][random.randrange(0, len(self.motion_list[item_name]) - 1)]
+                    except (KeyError, TypeError):
+                        rendering_gesture = self.motion_list[item_name][random.randint(0, len(self.motion_list[item_name]) - 1)]
+
+                else:
+                    try:
+                        rendering_gesture = self.motion_list[item_name][random.randint(0, len(self.motion_list[item_name]) - 1)]
+                    except KeyError:
+                        rendering_gesture = self.motion_list['neutral'][random.randint(0, len(self.motion_list[item_name]) - 1)]
+
                 with self.lock:
                     if self.actionlibServer.is_preempt_requested():
                         self.actionlibServer.set_preempted()

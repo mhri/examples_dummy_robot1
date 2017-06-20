@@ -2,7 +2,7 @@
 #-*- encoding: utf8 -*-
 
 import rospy
-from perception_core.perception_base import PerceptionBase
+from perception_base.perception_base import PerceptionBase
 from geometry_msgs.msg import PointStamped
 
 class LoudSoundDetector(PerceptionBase):
