@@ -101,7 +101,7 @@ class NaoSpeech(ALModule, NaoqiNode):
 
         saystr = goal.data
         if goal.data == '':
-            rospy.sleep(0.2)
+            rospy.sleep(0.5)
             result.result = True
             self.speechWithFeedbackServer.set_succeeded(result)
             return
@@ -118,6 +118,7 @@ class NaoSpeech(ALModule, NaoqiNode):
             counter += 1
 
         if success:
+            rospy.sleep(0.2)
             result.result = True
             self.speechWithFeedbackServer.set_succeeded(result)
 

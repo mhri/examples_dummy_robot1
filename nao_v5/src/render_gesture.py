@@ -11,14 +11,16 @@ import re
 import rospy
 import actionlib
 import rospkg
-import tf
+# import tf
+import tf2_ros
+from tf2_geometry_msgs import PointStamped
 
 from naoqi_driver.naoqi_node import NaoqiNode
 from naoqi import (ALBroker, ALProxy, ALModule)
 
 from mhri_msgs.msg import RenderItemAction, RenderItemResult, RenderItemFeedback
 from mhri_msgs.srv import GetInstalledGestures, GetInstalledGesturesResponse
-from geometry_msgs.msg import PointStamped
+# from geometry_msgs.msg import PointStamped
 
 class NaoBehaviors(NaoqiNode):
     NODE_NAME = "nao_render_gesture"
@@ -32,6 +34,9 @@ class NaoBehaviors(NaoqiNode):
 
         self.behaviorProxy = self.get_proxy("ALBehaviorManager")
         self.motionProxy = self.get_proxy("ALTracker")
+
+        self.tf_buf = tf2_ros.Buffer()
+        self.listener = tf2_ros.TransformListener(self.tf_buf)
 
         if self.behaviorProxy == None:
             quit(1)
@@ -51,8 +56,6 @@ class NaoBehaviors(NaoqiNode):
             GetInstalledGestures,
             self.getInstalledGestures
         )
-
-        self.listener = tf.TransformListener()
 
         # Prepare and start actionlib server
         self.actionlibServer = actionlib.SimpleActionServer(
@@ -152,11 +155,9 @@ class NaoBehaviors(NaoqiNode):
             target.point.z = parse_data['xyz'][2]
 
             try:
-                self.listener.waitForTransform("torso", parse_data['name'], rospy.Time(), rospy.Duration(1.0))
-                (trans,rot) = self.listener.lookupTransform("torso", parse_data['name'], rospy.Time())
-                self.motionProxy.pointAt("RArm", trans, 0, 0.2)
-
-            except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+                point_transformed = self.tf_buf.transform(target, 'torso')
+                self.motionProxy.pointAt("RArm", [point_transformed.point.x, point_transformed.point.y, point_transformed.point.z], 0, 0.2)
+            except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
                 rospy.logwarn('The transform information can not find with /RShoulder and target point...')
                 succeed = False
 
